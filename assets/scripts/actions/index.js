@@ -25,6 +25,7 @@ export function fetchFiles(token, types, userID) {
 	}
 	if (userID !== 'all')
 		data.user = userID
+		data.ts_to = parseInt(Date.now()/1000 - 5 * 24 * 60 * 60)
 	const request = axios.get(`https://slack.com/api/files.list`, { params: data });
 	return {
 		type: FETCH_FILES,
