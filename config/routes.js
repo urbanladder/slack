@@ -1,20 +1,23 @@
 'use strict';
 
+
 module.exports = (app, passport) => {
+
+	var root = '/deletron';
 	
 	app.get('/', (req, res) => res.render('index'));
 
 	app.get('/logout', function(req, res){
 	  console.log('logging out');
 	  req.logout();
-	  res.redirect('/');
+	  res.redirect(root + '/');
 	});
 
 	app.get('/auth/slack', passport.authenticate('slack'));
 	app.get('/auth/slack/callback', passport.authenticate('slack', {
-	  failureRedirect: '/'
+	  failureRedirect: root + '/'
 	}), (req, res) => {
-	  res.redirect('/hooray')
+	  res.redirect(root + '/hooray')
 	});
 
 	app.get('/hooray', ensureAuthenticated, (req, res) => {
@@ -31,5 +34,5 @@ function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
     return next();
   }
-  res.redirect('/')
+  res.redirect(root + '/')
 }
